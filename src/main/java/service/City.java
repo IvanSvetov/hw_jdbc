@@ -1,14 +1,12 @@
 package service;
-
 import lombok.*;
 
-@Getter
-@Setter
+
+@AllArgsConstructor
+@Data
 
 public class City {
     private int city_id;
     private String city_name;
 
-    public City(int city_id, String city_name) {
-    }
 }

@@ -1,9 +1,9 @@
 package service;
-
 import lombok.*;
 
-@Getter
-@Setter
+
+@AllArgsConstructor
+@Data
 
 public class Employee {
     private int id;
@@ -12,8 +12,5 @@ public class Employee {
     private String gender;
     private int age;
     private City city;
-
-
-    public Employee(int id, String firstName, String lastName, String gender, int age, City city) {
-    }
 }
+

@@ -27,9 +27,24 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
     @Override
-    public Employee getByID(int id) {
-
-        return null;
+    public Employee getByID(int id) throws SQLException{
+        Employee employees = null;
+        try (
+                PreparedStatement statement= DriverManager.getConnection(url, user, password). prepareStatement(
+                        "SELECT * FROM employee INNER JOIN city " +
+                        "ON employee.city_id = city.city_id WHERE id = (?)")) {
+            statement.setInt(1, id);
+            ResultSet resultSet = statement.executeQuery();
+            if (resultSet.next()) {
+                String firstName = resultSet.getString("first_name");
+                String lastName = resultSet.getString("last_name");
+                String gender = resultSet.getString("gender");
+                int age = Integer.parseInt(resultSet.getString("age"));
+                City city = new City(resultSet.getInt("city_id"),
+                        resultSet.getString("city_name"));
+                employees = new Employee(id, firstName, lastName, gender, age, city);
+            }
+        } return employees;
     }
 
     @Override

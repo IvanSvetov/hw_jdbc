@@ -5,6 +5,8 @@ public class Application {
         final String user = "postgres";
         final String password = "16534708";
         final String url = "jdbc:postgresql://localhost:5432/skypro";
+        EmployeeDao employeeDao = new EmployeeDaoImpl();
+        System.out.println(employeeDao.getByID(1));
 
         try (final Connection connection = DriverManager.getConnection(url, user, password);
         PreparedStatement statement = connection.prepareStatement("" +
