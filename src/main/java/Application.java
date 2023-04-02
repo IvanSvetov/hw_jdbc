@@ -23,6 +23,7 @@ public class Application {
                 System.out.println(surname);
                 System.out.println(gender);
                 System.out.println("Age: " + age);
+
             }
         }
     }
