@@ -1,32 +1,31 @@
-import java.sql.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 public class Application {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
 
-        final String user = "postgres";
-        final String password = "16534708";
-        final String url = "jdbc:postgresql://localhost:5432/skypro";
-        EmployeeDao employeeDao = new EmployeeDaoImpl();
-        System.out.println(employeeDao.getByID(1));
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("myPersistenceUnit");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
 
-        try (final Connection connection = DriverManager.getConnection(url, user, password);
-        PreparedStatement statement = connection.prepareStatement("" +
-                "SELECT * FROM employee WHERE id = (?)")) {
+        entityManager.getTransaction().begin();
 
-            statement.setInt(1, 1);
-            final ResultSet resultSet = statement.executeQuery();
+        /*String jpqlQuery = "SELECT s FROM Employee s";
+        TypedQuery<Employee> query = entityManager.createQuery(jpqlQuery, Employee.class);
+        List<Employee> employees = query.getResultList();
 
-            if (resultSet.next()) {
-                String name = "Name: " + resultSet.getString("first_name");
-                String surname = "Surname: " + resultSet.getString("last_name");
-                String gender = "Gender: " + resultSet.getString(4);
-                int age = resultSet.getInt(5);
+        entityManager.getTransaction().commit();
 
-                System.out.println(name);
-                System.out.println(surname);
-                System.out.println(gender);
-                System.out.println("Age: " + age);
+        for (Employee employee : employees) {
+            System.out.println("Employee ID: " + employee.getId());
+            System.out.println("Employee name: " + employee.getFirst_name() + " " + employee.getLast_name());
+            System.out.println("Employee gender: " + employee.getGender());
+            System.out.println("Employee age: " + employee.getAge());
+            System.out.println("-----------------");
+        }*/
 
-            }
-        }
+        entityManager.close();
+        entityManagerFactory.close();
+
     }
 }

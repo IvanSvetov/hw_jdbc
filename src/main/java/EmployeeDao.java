@@ -1,11 +1,10 @@
 import service.Employee;
-
 import java.sql.SQLException;
 import java.util.List;
 
 public interface EmployeeDao {
 
-    void add(Employee employee);
+    Integer add(Employee employee);
 
     Employee getByID(int id) throws SQLException;
 
@@ -13,5 +12,5 @@ public interface EmployeeDao {
 
     void updateEmployee(int id, Employee employee);
 
-    void deleteEmployee(int id);
+    void deleteEmployee(Employee employee);
 }
