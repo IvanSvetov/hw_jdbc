@@ -1,40 +1,31 @@
 import service.Employee;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.TypedQuery;
-import java.util.List;
+import java.sql.SQLException;
 
 public class Application {
-    public static void main(String[] args) {
 
-        EntityManagerFactory entityManagerFactory =
-                Persistence.createEntityManagerFactory("myPersistenceUnit");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-
-        entityManager.getTransaction().begin();
+    public static void main(String[] args) throws SQLException {
+        EmployeeDao employeeDao = new EmployeeDaoImpl();
+        CityDao cityDao = new CityDaoImpl();
 
 
+        /*employeeDao.getByID(2);
+        cityDao.add(new City(1, "Moscow", null));*/
+        /*employeeDao.add(new Employee(3, "TEST", "TEST", "m", 32, cityDao.getByID(1)));*/
+        /*employeeDao.add(new Employee(3, "Tom", "Holland", "m", 26, cityDao.getByID(2)));*/
 
+        /*cityDao.updateCity(cityDao.getByID(1));*/
 
-        String jpqlQuery = "SELECT s FROM Employee s";
-        TypedQuery<Employee> query = entityManager.createQuery(jpqlQuery, Employee.class);
-        List<Employee> employees = query.getResultList();
+        employeeDao.getAllEmployee().forEach(System.out::println);
 
-        entityManager.getTransaction().commit();
+        Employee test = employeeDao.getByID(7);
+                test.setCity(cityDao.getByID(2));
+        employeeDao.updateEmployee(7, test);
 
+        System.out.println(cityDao.getAllCity());
 
-        for (Employee employee : employees) {
-            System.out.println("Employee ID: " + employee.getId());
-            System.out.println("Employee name: " + employee.getFirst_name() + " " + employee.getLast_name());
-            System.out.println("Employee gender: " + employee.getGender());
-            System.out.println("Employee age: " + employee.getAge());
-            System.out.println("-----------------");
-        }
-
-        entityManager.close();
-        entityManagerFactory.close();
+        /*cityDao.getByID(2).setCity_name("SPB)");
+        cityDao.updateCity(new City(2, "Saint-Petersburg", null));*/
 
     }
 }
